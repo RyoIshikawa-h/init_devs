@@ -1,0 +1,7 @@
+
+/*
+# 必要なファイルだけを追跡する。
+!/.git/
+!/.gitignore
+!/init_nextrails.sh
+!/README_nextrails.md
