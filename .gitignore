@@ -1,7 +1,6 @@
 
 /*
 # 必要なファイルだけを追跡する。
-!/.git/
 !/.gitignore
 !/init_*.sh
 !/README*

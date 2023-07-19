@@ -163,7 +163,7 @@ do
         if [ -e "${Pfolder}/${APPNAME}/${TARGET[$i]}/.git" ]; then
             read -p "${TARGET[$i]}のgitを削除します <ENTER> : " INPUT
             if [ -z "$INPUT" ]; then
-                rm -rf ${Pfolder}/${APPNAME}/.git
+                rm -rf ${Pfolder}/${APPNAME}/${TARGET[$i]}/.git
                 echo ".gitを削除しました。"
             else
                 echo ".gitは削除しませんでした。"
