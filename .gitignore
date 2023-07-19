@@ -3,5 +3,6 @@
 # 必要なファイルだけを追跡する。
 !/.devcontainer/
 !/.gitignore
+!/.gitmodules
 !/init_*.sh
 !/README*
