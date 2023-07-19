@@ -182,7 +182,9 @@ cp -f ${Pfolder}/${APPNAME}/.env ${Pfolder}/.devcontainer
 # docker compose up -d 【-buildつけることでキャッシュを使用せず
     # compose.ymlや依存関係の変更を反映させて新たにイメージをつくります】
 docker compose -f ${Pfolder}/.devcontainer/docker-compose.yml -p ${PNAME} up -d --build
-rm -f ${Pfolder}/.devcontainer/.env
+
+# 削除するとcompose stopなどができなくなる
+# rm -f ${Pfolder}/.devcontainer/.env
 
 # Pfolderへ移動
 if [ ! "${current_folder}" = "${PNAME}" ]; then
