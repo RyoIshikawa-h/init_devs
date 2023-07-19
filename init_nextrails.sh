@@ -53,14 +53,16 @@ if [ -e "${Pfolder}/.devcontainer" ] ; then # .devcontainerが存在して、更
     if [[ $yn != [yY]* ]] && [[ $yn != "ex" ]]; then
         echo "終了します。"
         exit
+    else
+        rm -rf "${Pfolder}/.devcontainer"
     fi
 fi
 
 if [ "$yn" == "ex" ]; then
     echo "既存の.devcontainerを使用して初期化を続行します。"
 else
-    git clone $DEV_CON $tmpfolder
-    mv -f $tmpfolder/.devcontainer ${Pfolder} #fは同名ファイルがある場合に上書き
+    git clone $DEV_CON $tmpfolder/.devcontainer
+    mv $tmpfolder/.devcontainer ${Pfolder}
     rm -rf $tmpfolder
 fi
 
@@ -191,7 +193,7 @@ if [ ! "${current_folder}" = "${PNAME}" ]; then
 
 #   echo "cd ${Pfolder} で移動してください"
     cd ${Pfolder}
-    echo "${Pfolder} に移動しました。"
+    echo "${Pfolder} 下にジャンプしました。"
     #  . init.sh であれば移動可能：https://atmarkit.itmedia.co.jp/bbs/phpBB/viewtopic.php?topic=5801&forum=10
     # $ . test.sh
         # ファイル読み込み -> 実行 (ディレクトリ移動)
