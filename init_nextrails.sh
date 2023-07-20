@@ -197,7 +197,9 @@ if [ ! "${current_folder}" = "${PNAME}" ]; then
 
 #   echo "cd ${Pfolder} で移動してください"
     cd ${Pfolder}
-    echo "${Pfolder} 下にジャンプしました。"
+    if [ "$(basename "$(pwd)")" = "${PNAME}" ]; then
+        echo "${Pfolder} 下にジャンプしました。"
+    fi
     #  . init.sh であれば移動可能：https://atmarkit.itmedia.co.jp/bbs/phpBB/viewtopic.php?topic=5801&forum=10
     # $ . test.sh
         # ファイル読み込み -> 実行 (ディレクトリ移動)
