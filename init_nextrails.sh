@@ -41,8 +41,6 @@ else
     echo -e "${Pfolder}/${APPNAME}は既に存在します。\\n"
 fi
 
-# READMEをコピー
-cp ./README_nextrails.md ${Pfolder}/${APPNAME}
 # -----------------------------------------------------------------------------------------|
 
 if [ -e "${Pfolder}/.devcontainer" ] ; then # .devcontainerが存在して、更にその他のファイルも存在する場合
@@ -53,7 +51,7 @@ if [ -e "${Pfolder}/.devcontainer" ] ; then # .devcontainerが存在して、更
     if [[ $yn != [yY]* ]] && [[ $yn != "ex" ]]; then
         echo "終了します。"
         exit
-    else
+    elif [ $yn == [yY]* ]; then
         rm -rf "${Pfolder}/.devcontainer"
     fi
 fi
@@ -123,6 +121,7 @@ EOT
 source ${Pfolder}/${APPNAME}/.env
  
 # -----------------------------------------------------------------------------------------|
+
 # 各ディレクトリをfor文で順に初期化
 TARGET=("${CONTAINER1}" "${CONTAINER2}" "${CONTAINER3}")
 DESTURL=("${FRONT_URL}" "${BACK_URL}" "")
@@ -195,11 +194,9 @@ docker compose -f ${Pfolder}/.devcontainer/docker-compose.yml -p ${PNAME} up -d 
 # Pfolderへ移動
 if [ ! "${current_folder}" = "${PNAME}" ]; then
 
-#   echo "cd ${Pfolder} で移動してください"
-    cd ${Pfolder}
-    if [ "$(basename "$(pwd)")" = "${PNAME}" ]; then
-        echo "${Pfolder} 下にジャンプしました。"
-    fi
+    echo "cd ${Pfolder} で移動してください"
+    # cd ${Pfolder}
+    # echo "${Pfolder} 下にジャンプしました。"
     #  . init.sh であれば移動可能：https://atmarkit.itmedia.co.jp/bbs/phpBB/viewtopic.php?topic=5801&forum=10
     # $ . test.sh
         # ファイル読み込み -> 実行 (ディレクトリ移動)
