@@ -113,6 +113,10 @@ PORT4="8081:8080"
 TZ="Asia/Tokyo"
 LANG="C.UTF-8"
 
+# network
+NSUBW="10.0.0.0/16"
+NGATE="10.0.0.1"
+
 EOT
 
 # ./.envファイルを読み込んで変数として参照できるようにする
