@@ -1,8 +1,8 @@
 
 /*
 # 必要なファイルだけを追跡する。
-!/.devcontainer/
+!/*devcontainer/
 !/.gitignore
 !/.gitmodules
-!/init_*.sh
+!/*.sh
 !/README*

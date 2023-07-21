@@ -1,3 +1,6 @@
 [submodule ".devcontainer"]
 	path = .devcontainer
 	url = https://github.com/githuno/devcon-nextrails.git
+[submodule "nextrails_devcontainer"]
+	path = nextrails_devcontainer
+	url = https://github.com/githuno/devcon-nextrails.git

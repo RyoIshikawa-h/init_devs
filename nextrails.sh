@@ -17,7 +17,7 @@ DEV_CON=https://github.com/githuno/devcon-nextrails.git
 
 echo "現在の階層は $current_folder 下 です。"
 read -p "ここに${PNAME}のプロジェクトディレクトリを作成しますか? <y/N> : " yn
-if [ "$yn" = "y" ] || [ "$yn" = "Y" ]; then
+if [[ "$yn" = "y" ]] || [[ "$yn" = "Y" ]]; then
     Pfolder="./${PNAME}"
     tmpfolder="./${PNAME}_tmp"
 else
@@ -26,6 +26,11 @@ else
     Pfolder="${trimmed_dir}/${PNAME}"
     tmpfolder="${trimmed_dir}/${PNAME}_tmp"
 fi
+
+# [[ ... ]] を使用する場合：
+# より強力な条件式を使用できます。例えば、&& や || などの論理演算子を使うことができます。
+# 文字列のパターンマッチングができます。== や != の他にも =~ を使って正規表現を使用できます。
+# 変数の値が空の場合にもエラーになりません。
 
 # プロジェクトフォルダとアプリフォルダを作成
 if [ ! -e "${Pfolder}" ]; then
@@ -48,15 +53,15 @@ if [ -e "${Pfolder}/.devcontainer" ] ; then # .devcontainerが存在して、更
         ※ または\"ex\"でそのまま既存の.devcontainerを使用します。\\n\
         <y/N> : "
     read -r yn
-    if [[ $yn != [yY]* ]] && [[ $yn != "ex" ]]; then
+    if [[ "$yn" != [yY] ]] && [[ "$yn" != "ex" ]]; then
         echo "終了します。"
         exit
-    elif [ $yn == [yY]* ]; then
+    elif [[ "$yn" == [yY] ]]; then
         rm -rf "${Pfolder}/.devcontainer"
     fi
 fi
 
-if [ "$yn" == "ex" ]; then
+if [[ "$yn" == "ex" ]]; then
     echo "既存の.devcontainerを使用して初期化を続行します。"
 else
     git clone $DEV_CON $tmpfolder/.devcontainer
@@ -143,8 +148,8 @@ do
             echo -e "${TARGET[$i]}は初期化しませんでした。\\n\\n"         # 終了
         fi
     fi
-    if [[ $yn == [yY]* ]] || [[ ! -e ${Pfolder}/${APPNAME}/${TARGET[$i]} ]]; then      # 続行
-        if [ ${TARGET[$i]} == db ]; then
+    if [[ "$yn" == [yY] ]] || [[ ! -e ${Pfolder}/${APPNAME}/${TARGET[$i]} ]]; then      # 続行
+        if [[ ${TARGET[$i]} == db ]]; then
             echo "${TARGET[$i]}を初期化します。"
             mkdir ${Pfolder}/${APPNAME}/${TARGET[$i]} ${Pfolder}/${APPNAME}/${TARGET[$i]}/data
         else
@@ -167,7 +172,7 @@ do
         # git削除
         if [ -e "${Pfolder}/${APPNAME}/${TARGET[$i]}/.git" ]; then
             read -p "${TARGET[$i]}のgitを削除します <ENTER> : " INPUT
-            if [ -z "$INPUT" ]; then
+            if [[ -z "$INPUT" ]]; then
                 rm -rf ${Pfolder}/${APPNAME}/${TARGET[$i]}/.git
                 echo ".gitを削除しました。"
             else
