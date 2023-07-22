@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo ""
 read -p "プロジェクト名を入力してください（※ 半角小文字 例：nextrails）: " PNAME
@@ -11,13 +11,13 @@ APP_PATH=/${APPNAME}
 # クローンリポジトリの初期URL
 FRONT_URL=https://github.com/githuno/nextrails-ini-frontend.git
 BACK_URL=https://github.com/githuno/nextrails-ini-backend.git
-DEV_CON=https://github.com/githuno/devcon-nextrails.git 
+DEV_CON=https://github.com/githuno/devcon-nextrails.git
 
 # -----------------------------------------------------------------------------------------|
 
 echo "現在の階層は $current_folder 下 です。"
 read -p "ここに${PNAME}のプロジェクトディレクトリを作成しますか? <y/N> : " yn
-if [[ "$yn" != [yY] ]]; then
+if [[ "$yn" == [yY] ]]; then
     Pfolder="./${PNAME}"
     tmpfolder="./${PNAME}_tmp"
 else
@@ -27,10 +27,10 @@ else
     tmpfolder="${trimmed_dir}/${PNAME}_tmp"
 fi
 
-# [[ ... ]] を使用する場合：
+# if [[ "$yn" == [yY] ]]; then のように、[[ ... ]] を使用する場合：
 # より強力な条件式を使用できます。例えば、&& や || などの論理演算子を使うことができます。
 # 文字列のパターンマッチングができます。== や != の他にも =~ を使って正規表現を使用できます。
-# 変数の値が空の場合にもエラーになりません。
+# 変数の値が空の場合にもエラーになりません。ただしデフォルトcodespaceでは使えない
 
 # プロジェクトフォルダとアプリフォルダを作成
 if [ ! -e "${Pfolder}" ]; then
@@ -53,15 +53,15 @@ if [ -e "${Pfolder}/.devcontainer" ] ; then # .devcontainerが存在して、更
         ※ または\"ex\"でそのまま既存の.devcontainerを使用します。\\n\
         <y/N> : "
     read -r yn
-    if [[ "$yn" != [yY] ]] && [[ "$yn" != "ex" ]]; then
+    if [[ "$yn" == [yY] ]]; then
+        rm -rf "${Pfolder}/.devcontainer"
+    elif [ "$yn" != "ex" ]; then
         echo "終了します。"
         exit
-    elif [[ "$yn" == [yY] ]]; then
-        rm -rf "${Pfolder}/.devcontainer"
-    fi
+	fi
 fi
 
-if [[ "$yn" == "ex" ]]; then
+if [ "$yn" = "ex" ]; then
     echo "既存の.devcontainerを使用して初期化を続行します。"
 else
     git clone $DEV_CON $tmpfolder/.devcontainer
@@ -124,22 +124,22 @@ EOT
 
 # ./.envファイルを読み込んで変数として参照できるようにする
 source ${Pfolder}/${APPNAME}/.env
- 
+
 # -----------------------------------------------------------------------------------------|
 
 # 各ディレクトリをfor文で順に初期化
 TARGET=("${CONTAINER1}" "${CONTAINER2}" "${CONTAINER3}")
 DESTURL=("${FRONT_URL}" "${BACK_URL}" "")
 
-for ((i=0; i<${#TARGET[@]}; i++)); 
+for ((i=0; i<${#TARGET[@]}; i++));
 do
 
     echo -e "\\n【${TARGET[$i]}】\\n"
     if [ -e ${Pfolder}/${APPNAME}/${TARGET[$i]} ]; then   # ${TARGET[$i]}ディレクトリが存在する場合
         read -p "既に${TARGET[$i]}が存在します。既存フォルダを削除して大丈夫ですか? <y/N> : " yn
-        if [[ $yn == [yY]* ]]; then
+        if [[ "$yn" == [yY] ]]; then
             # 該当ディレクトリの削除
-            if [ -e "${Pfolder}/${APPNAME}/${TARGET[$i]}/.next" ] || [ ${TARGET[$i]} == db ]; then
+            if [ -e "${Pfolder}/${APPNAME}/${TARGET[$i]}/.next" ] || [ ${TARGET[$i]} = "db" ]; then
                 sudo rm -rf ${Pfolder}/${APPNAME}/${TARGET[$i]} # 一度でもrootでyarn devするとrootファイルが生成されてしまう
             fi
             rm -rf ${Pfolder}/${APPNAME}/${TARGET[$i]}
@@ -148,8 +148,8 @@ do
             echo -e "${TARGET[$i]}は初期化しませんでした。\\n\\n"         # 終了
         fi
     fi
-    if [[ "$yn" == [yY] ]] || [[ ! -e ${Pfolder}/${APPNAME}/${TARGET[$i]} ]]; then      # 続行
-        if [[ ${TARGET[$i]} == db ]]; then
+    if [[ "$yn" == [yY] ]] || [ ! -e ${Pfolder}/${APPNAME}/${TARGET[$i]} ]; then      # 続行
+        if [ ${TARGET[$i]} = "db" ]; then
             echo "${TARGET[$i]}を初期化します。"
             mkdir ${Pfolder}/${APPNAME}/${TARGET[$i]} ${Pfolder}/${APPNAME}/${TARGET[$i]}/data
         else
@@ -172,7 +172,7 @@ do
         # git削除
         if [ -e "${Pfolder}/${APPNAME}/${TARGET[$i]}/.git" ]; then
             read -p "${TARGET[$i]}のgitを削除します <ENTER> : " INPUT
-            if [[ -z "$INPUT" ]]; then
+            if [ -z "$INPUT" ]; then
                 rm -rf ${Pfolder}/${APPNAME}/${TARGET[$i]}/.git
                 echo ".gitを削除しました。"
             else
@@ -206,5 +206,5 @@ if [ ! "${current_folder}" = "${PNAME}" ]; then
     # $ . test.sh
         # ファイル読み込み -> 実行 (ディレクトリ移動)
     # $ ./test.sh
-        # bash起動 -> ファイル読み込み -> 実行 (ディレクトリ移動) -> bash終了  
+        # bash起動 -> ファイル読み込み -> 実行 (ディレクトリ移動) -> bash終了
 fi
