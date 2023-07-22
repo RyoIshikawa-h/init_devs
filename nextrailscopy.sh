@@ -96,22 +96,22 @@ APP_PATH=/${APPNAME}
 
 # rails
 CONTAINER1="frontend"
-PORT1="3001:3000"
+PORT1="3003:3000"
 
 # next
 CONTAINER2="backend"
-PORT2="3002:3000"
+PORT2="3004:3000"
 
 # postgres
 CONTAINER3="db"
-PORT3="5433:5432"
+PORT3="5434:5432"
 DB_NAME="db"
 DB_USER="postgres"
 DB_PW="password"
 
 # adminer
 CONTAINER4="adminer"
-PORT4="8081:8080"
+PORT4="8082:8080"
 
 TZ="Asia/Tokyo"
 LANG="C.UTF-8"
