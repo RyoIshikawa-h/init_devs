@@ -5,4 +5,5 @@
 !/.gitignore
 !/.gitmodules
 !/*.sh
+!/*-no-it.sh
 !/README*
